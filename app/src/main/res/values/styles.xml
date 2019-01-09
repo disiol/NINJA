@@ -1,0 +1,9 @@
+<resources>
+
+    <item name="android:navigationBarColor" tools:targetApi="21">@color/colorPrimaryDark</item>
+
+	<item name="android:windowBackground">@color/colorPrimaryDark</item>
+	<item name="android:windowFullscreen">true</item>
+	<item name="android:windowAnimationStyle">@null</item>
+
+</resources>
