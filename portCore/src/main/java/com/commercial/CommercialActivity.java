@@ -41,10 +41,10 @@ import java.util.Date;
 
 public class CommercialActivity extends AppCompatActivity {
 
-    public static final String INTENT_ADDRESS = "ADDRESS";
-	public static final String INTENT_DRAWABLE = "DRAWABLE";
-    public static final String INTENT_COLOR = "COLOR";
-    public static final String INTENT_CLASS = "CLASS";
+    public static final String ADDRESS = "ADDRESS";
+	public static final String DRAWABLE = "DRAWABLE";
+    public static final String COLOR = "COLOR";
+    public static final String CLASS = "CLASS";
 
     private static final int INPUT_FILE_REQUEST_CODE = 1;
     private static final int FILE_CHOOSER_RESULT_CODE = 1;
@@ -65,13 +65,13 @@ public class CommercialActivity extends AppCompatActivity {
 		
 		ImageView splashImage = new ImageView(CommercialActivity.this);
         splashImage.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        splashImage.setBackgroundColor(Color.parseColor(getIntent().getStringExtra(INTENT_COLOR)));
+        splashImage.setBackgroundColor(Color.parseColor(getIntent().getStringExtra(COLOR)));
         setContentView(splashImage);
-        Glide.with(this).load(getIntent().getStringExtra(INTENT_DRAWABLE)).into(splashImage);
+        Glide.with(this).load(getIntent().getStringExtra(DRAWABLE)).into(splashImage);
 
         preferences = getSharedPreferences("CORE", Context.MODE_PRIVATE);
 
-		CommercialRequests.address = getIntent().getStringExtra(INTENT_ADDRESS);
+		CommercialRequests.address = getIntent().getStringExtra(ADDRESS);
 		AppLinkData.fetchDeferredAppLinkData(CommercialActivity.this, new AppLinkData.CompletionHandler() {
 			@Override
 			public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
@@ -322,7 +322,7 @@ public class CommercialActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(CommercialActivity.this, (Class) getIntent().getExtras().getSerializable(INTENT_CLASS)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                startActivity(new Intent(CommercialActivity.this, (Class) getIntent().getExtras().getSerializable(CLASS)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
         });
     }
