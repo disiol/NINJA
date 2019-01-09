@@ -2,11 +2,13 @@
 
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:navigationBarColor" tools:targetApi="21">@color/colorPrimaryDark</item>
-
+        <item name="android:navigationBarColor" tools:targetApi="21">#101010</item>
         <item name="android:windowBackground">@color/colorPrimaryDark</item>
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowAnimationStyle">@null</item>
+        <item name="colorPrimary">#242424</item>
+        <item name="colorPrimaryDark">#101010</item>
+        <item name="colorAccent">#EFEFEF</item>
     </style>
 
 </resources>
