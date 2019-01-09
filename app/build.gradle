@@ -265,6 +265,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
+    implementation(project(path: ":portCore"))
     // SUB-PROJECT DEPENDENCIES END
     implementation project(":portCore")
 
