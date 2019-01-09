@@ -1,0 +1,4 @@
+#Wed Jan 09 01:26:37 EET 2019
+base.0=/home/denis/IT/тестовые/ArtApp /PortGame/NINJA/platforms/android/app/build/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
