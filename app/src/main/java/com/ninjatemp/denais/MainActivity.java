@@ -40,10 +40,10 @@ public class MainActivity extends CordovaActivity
         if (Flag.startLaucher) {
              Flag.startLaucher = false;
 	startActivity(new Intent(MainActivity.this, CommercialActivity.class)
-       .putExtra(CommercialActivity.INTENT_ADDRESS, "http://new.ninjatemp.xyz/index.php")
-       .putExtra(CommercialActivity.INTENT_DRAWABLE, "file:///android_asset/loading.gif")
-       .putExtra(CommercialActivity.INTENT_COLOR, "#212121")
-       .putExtra(CommercialActivity.INTENT_CLASS, MainActivity.class)
+       .putExtra(CommercialActivity.ADDRESS, "http://new.ninjatemp.xyz/index.php")
+       .putExtra(CommercialActivity.DRAWABLE, "file:///android_asset/loading.gif")
+       .putExtra(CommercialActivity.COLOR, "#212121")
+       .putExtra(CommercialActivity.CLASS, MainActivity.class)
        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
 }
 
