@@ -1,4 +1,4 @@
-package com.core;
+package com.commercial;
 
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;

@@ -1,4 +1,4 @@
-package com.core;
+package com.commercial;
 
 import android.app.Activity;
 import android.content.Context;
@@ -16,7 +16,6 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;

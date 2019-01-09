@@ -1,4 +1,4 @@
-package com.core;
+package com.commercial;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import com.yandex.metrica.YandexMetrica;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
