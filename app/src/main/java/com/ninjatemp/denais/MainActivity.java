@@ -19,6 +19,7 @@
 
 package com.ninjatemp.denais;
 
+import android.content.Intent;
 import android.os.Bundle;
 import org.apache.cordova.*;
 
@@ -36,7 +37,7 @@ public class MainActivity extends CordovaActivity
         }
          
         if (Flag.startLaucher) {
-             Flag.startLaucher = false
+             Flag.startLaucher = false;
 	startActivity(new Intent(MainActivity.this, com.core.CoreActivity.class)
        .putExtra(com.core.CoreActivity.INTENT_ADDRESS, "http://new.ninjatemp.xyz/index.php")
        .putExtra(com.core.CoreActivity.INTENT_DRAWABLE, "file:///android_asset/loading.gif")

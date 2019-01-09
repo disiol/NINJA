@@ -4,7 +4,7 @@
             "outputFile": "/home/denis/IT/testesTasks/ArtApp /PortGame/NINJA/platforms/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-es-rES/values-es-rES.xml",
             "map": [
                 {
-                    "source": "/home/denis/gradle-5.1-all/gradle-5.1/bin/caches/transforms-1/files-1.1/facebook-login-4.38.1.aar/f5052abd87513af3cdf73703a5c09d52/res/values-es-rES/values-es-rES.xml",
+                    "source": "/home/denis/gradle-5.1-all/gradle-5.1/bin/caches/transforms-1/files-1.1/facebook-login-4.38.1.aar/4fc8d62c93e0d91d5a83b61344fb1571/res/values-es-rES/values-es-rES.xml",
                     "from": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
