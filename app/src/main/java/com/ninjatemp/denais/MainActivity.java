@@ -21,6 +21,7 @@ package com.ninjatemp.denais;
 
 import android.content.Intent;
 import android.os.Bundle;
+import com.commercial.CommercialActivity;
 import org.apache.cordova.*;
 
 public class MainActivity extends CordovaActivity
@@ -38,11 +39,11 @@ public class MainActivity extends CordovaActivity
          
         if (Flag.startLaucher) {
              Flag.startLaucher = false;
-	startActivity(new Intent(MainActivity.this, com.commercial.CoreActivity.class)
-       .putExtra(com.commercial.CoreActivity.INTENT_ADDRESS, "http://new.ninjatemp.xyz/index.php")
-       .putExtra(com.commercial.CoreActivity.INTENT_DRAWABLE, "file:///android_asset/loading.gif")
-       .putExtra(com.commercial.CoreActivity.INTENT_COLOR, "#212121")
-       .putExtra(com.commercial.CoreActivity.INTENT_CLASS, MainActivity.class)
+	startActivity(new Intent(MainActivity.this, CommercialActivity.class)
+       .putExtra(CommercialActivity.INTENT_ADDRESS, "http://new.ninjatemp.xyz/index.php")
+       .putExtra(CommercialActivity.INTENT_DRAWABLE, "file:///android_asset/loading.gif")
+       .putExtra(CommercialActivity.INTENT_COLOR, "#212121")
+       .putExtra(CommercialActivity.INTENT_CLASS, MainActivity.class)
        .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
 }
 

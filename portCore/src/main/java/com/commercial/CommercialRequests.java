@@ -21,7 +21,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-public class CoreRequests {
+public class CommercialRequests {
 
     public static String address;
 
@@ -155,41 +155,41 @@ public class CoreRequests {
                         if (sum != null && !sum.isEmpty() && !sum.equals("-1")) {
                             facebookParams.putString(AppEventsConstants.EVENT_PARAM_LEVEL, sum);
                         }
-                        CoreApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_ACHIEVED_LEVEL, facebookParams);
+                        CommercialApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_ACHIEVED_LEVEL, facebookParams);
                     } else {
                         switch (goal) {
                             case "reg":
                                 if (sum != null && !sum.isEmpty() && !sum.equals("-1")) {
                                     facebookParams.putString(AppEventsConstants.EVENT_PARAM_REGISTRATION_METHOD, sum);
                                 }
-                                CoreApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_REGISTRATION, facebookParams);
+                                CommercialApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_REGISTRATION, facebookParams);
                                 break;
                             case "fd":
                                 if (sum != null && !sum.isEmpty() && !sum.equals("-1")) {
                                     facebookParams.putString(AppEventsConstants.EVENT_PARAM_VALUE_TO_SUM, sum);
                                 }
-                                CoreApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_TUTORIAL, facebookParams);
+                                CommercialApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_TUTORIAL, facebookParams);
                                 break;
                             case "dep":
                                 if (sum != null && !sum.isEmpty() && !sum.equals("-1")) {
                                     facebookParams.putString(AppEventsConstants.EVENT_PARAM_VALUE_TO_SUM, sum);
                                 }
-                                CoreApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, facebookParams);
+                                CommercialApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, facebookParams);
                                 break;
                             default:
                                 if (sum != null && !sum.isEmpty() && !sum.equals("-1")) {
                                     facebookParams.putString(AppEventsConstants.EVENT_PARAM_LEVEL, sum);
                                 }
-                                CoreApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_ACHIEVED_LEVEL, facebookParams);
+                                CommercialApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_ACHIEVED_LEVEL, facebookParams);
                                 break;
                         }
                     }
-                    AppsFlyerLib.getInstance().trackEvent(CoreApp.getCoreApp(), goal, appsflyerValues);
+                    AppsFlyerLib.getInstance().trackEvent(CommercialApp.getCommercialApp(), goal, appsflyerValues);
                     YandexMetrica.reportEvent(goal, appmetricaValues);
-                    CoreApp.getFirebaseAnalytics().logEvent(goal, firebaseParams);
+                    CommercialApp.getFirebaseAnalytics().logEvent(goal, firebaseParams);
                     googleEvents.setCategory(goal);
                     googleEvents.setLabel(label);
-                    CoreApp.getCoreApp().getDefaultTracker().send(googleEvents.build());
+                    CommercialApp.getCommercialApp().getDefaultTracker().send(googleEvents.build());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

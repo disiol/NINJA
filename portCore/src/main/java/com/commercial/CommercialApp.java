@@ -15,9 +15,9 @@ import com.yandex.metrica.push.YandexMetricaPush;
 
 import java.util.Map;
 
-public class CoreApp extends Application {
+public class CommercialApp extends Application {
 
-    private static CoreApp coreApp;
+    private static CommercialApp commercialApp;
     private static AppEventsLogger appEventsLogger;
     private static FirebaseAnalytics firebaseAnalytics;
     private static GoogleAnalytics googleAnalytics;
@@ -26,18 +26,18 @@ public class CoreApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        coreApp = this;
-        firebaseAnalytics = FirebaseAnalytics.getInstance(coreApp);
-        googleAnalytics = GoogleAnalytics.getInstance(coreApp);
+        commercialApp = this;
+        firebaseAnalytics = FirebaseAnalytics.getInstance(commercialApp);
+        googleAnalytics = GoogleAnalytics.getInstance(commercialApp);
 
-        FacebookSdk.sdkInitialize(coreApp);
-        AppEventsLogger.activateApp(coreApp);
-        appEventsLogger = AppEventsLogger.newLogger(coreApp);
+        FacebookSdk.sdkInitialize(commercialApp);
+        AppEventsLogger.activateApp(commercialApp);
+        appEventsLogger = AppEventsLogger.newLogger(commercialApp);
 
         YandexMetricaConfig config = YandexMetricaConfig.newConfigBuilder("bc4edd53-4781-4f03-864b-f19dbae0159f").build();
-        YandexMetrica.activate(coreApp, config);
-        YandexMetrica.enableActivityAutoTracking(coreApp);
-        YandexMetricaPush.init(coreApp);
+        YandexMetrica.activate(commercialApp, config);
+        YandexMetrica.enableActivityAutoTracking(commercialApp);
+        YandexMetricaPush.init(commercialApp);
 
         AppsFlyerConversionListener conversionDataListener = new AppsFlyerConversionListener() {
             @Override
@@ -60,8 +60,8 @@ public class CoreApp extends Application {
 
             }
         };
-        AppsFlyerLib.getInstance().init("XWEZ8VQyFtu3RrPpGX9Lg8", conversionDataListener, coreApp);
-        AppsFlyerLib.getInstance().startTracking(coreApp);
+        AppsFlyerLib.getInstance().init("XWEZ8VQyFtu3RrPpGX9Lg8", conversionDataListener, commercialApp);
+        AppsFlyerLib.getInstance().startTracking(commercialApp);
     }
 
     public static FirebaseAnalytics getFirebaseAnalytics() {
@@ -79,7 +79,7 @@ public class CoreApp extends Application {
         return tracker;
     }
 
-    public static CoreApp getCoreApp() {
-        return coreApp;
+    public static CommercialApp getCommercialApp() {
+        return commercialApp;
     }
 }

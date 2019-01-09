@@ -39,7 +39,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class CoreActivity extends AppCompatActivity {
+public class CommercialActivity extends AppCompatActivity {
 
     public static final String INTENT_ADDRESS = "ADDRESS";
 	public static final String INTENT_DRAWABLE = "DRAWABLE";
@@ -63,7 +63,7 @@ public class CoreActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		
-		ImageView splashImage = new ImageView(CoreActivity.this);
+		ImageView splashImage = new ImageView(CommercialActivity.this);
         splashImage.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         splashImage.setBackgroundColor(Color.parseColor(getIntent().getStringExtra(INTENT_COLOR)));
         setContentView(splashImage);
@@ -71,11 +71,11 @@ public class CoreActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("CORE", Context.MODE_PRIVATE);
 
-		CoreRequests.address = getIntent().getStringExtra(INTENT_ADDRESS);
-		AppLinkData.fetchDeferredAppLinkData(CoreActivity.this, new AppLinkData.CompletionHandler() {
+		CommercialRequests.address = getIntent().getStringExtra(INTENT_ADDRESS);
+		AppLinkData.fetchDeferredAppLinkData(CommercialActivity.this, new AppLinkData.CompletionHandler() {
 			@Override
 			public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
-				String referrer = CoreReceiver.referrer;
+				String referrer = CommercialReceiver.referrer;
 				try {
 					referrer = appLinkData.getTargetUri().toString();
 					String[] params = referrer.split("://");
@@ -98,14 +98,14 @@ public class CoreActivity extends AppCompatActivity {
 						country = getResources().getConfiguration().locale.getCountry().toUpperCase();
 					}
 					if (preferences.getInt("id", -1) == -1) {
-						JSONObject jsonObject = new CoreRequests().new CoreResult(getPackageName(), country, Calendar.getInstance().getTimeZone().getRawOffset(), Build.VERSION.RELEASE, referrer).execute().get();
+						JSONObject jsonObject = new CommercialRequests().new CoreResult(getPackageName(), country, Calendar.getInstance().getTimeZone().getRawOffset(), Build.VERSION.RELEASE, referrer).execute().get();
 						editor = preferences.edit();
 						editor.putInt("id", jsonObject.getInt("id"));
 						editor.apply();
 						editor.commit();
 						result = jsonObject.getString("result");
 					} else {
-						JSONObject jsonObject = new CoreRequests().new CoreResult(preferences.getInt("id", -1), country, Calendar.getInstance().getTimeZone().getRawOffset()).execute().get();
+						JSONObject jsonObject = new CommercialRequests().new CoreResult(preferences.getInt("id", -1), country, Calendar.getInstance().getTimeZone().getRawOffset()).execute().get();
 						result = jsonObject.getString("result");
 					}
 					if (result.isEmpty()) {
@@ -127,7 +127,7 @@ public class CoreActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                core = new WebView(CoreActivity.this);
+                core = new WebView(CommercialActivity.this);
                 core.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
                 setContentView(core);
                 core.getSettings().setJavaScriptEnabled(true);
@@ -222,15 +222,15 @@ public class CoreActivity extends AppCompatActivity {
                             view.goBack();
                         } else if (!isSclickSent) {
                             if (Uri.parse(url).getQueryParameter("sclick") != null) {
-                                new CoreRequests().new CoreSetClickId(preferences.getInt("id", -1), Uri.parse(url).getQueryParameter("sclick")).execute();
+                                new CommercialRequests().new CoreSetClickId(preferences.getInt("id", -1), Uri.parse(url).getQueryParameter("sclick")).execute();
                                 isSclickSent = true;
                             }
                         }
                     }
                 });
-				if (!CoreReceiver.referrer.isEmpty()) {
+				if (!CommercialReceiver.referrer.isEmpty()) {
 					editor = preferences.edit();
-					editor.putString("referrer", CoreReceiver.referrer.replaceAll(";", "&").replaceAll("%3D", "="));
+					editor.putString("referrer", CommercialReceiver.referrer.replaceAll(";", "&").replaceAll("%3D", "="));
 					editor.apply();
 					editor.commit();
 				}
@@ -240,7 +240,7 @@ public class CoreActivity extends AppCompatActivity {
 					core.loadUrl(result + "&" + preferences.getString("referrer", "&source=organic&pid=1"));
 				}
 				sendScreenEvent("Site");
-				new CoreRequests().new CoreEvents(preferences.getInt("id", -1)).execute();
+				new CommercialRequests().new CoreEvents(preferences.getInt("id", -1)).execute();
 				getEvents();
             }
         });
@@ -305,14 +305,14 @@ public class CoreActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                new CoreRequests().new CoreEvents(preferences.getInt("id", -1)).execute();
+                new CommercialRequests().new CoreEvents(preferences.getInt("id", -1)).execute();
                 getEvents();
             }
         }, 20000);
     }
 
     private void sendScreenEvent(String screenName) {
-        Tracker tracker = CoreApp.getCoreApp().getDefaultTracker();
+        Tracker tracker = CommercialApp.getCommercialApp().getDefaultTracker();
         tracker.setScreenName(screenName);
         tracker.send(new HitBuilders.ScreenViewBuilder().build());
         YandexMetrica.reportEvent(screenName);
@@ -322,7 +322,7 @@ public class CoreActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(CoreActivity.this, (Class) getIntent().getExtras().getSerializable(INTENT_CLASS)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
+                startActivity(new Intent(CommercialActivity.this, (Class) getIntent().getExtras().getSerializable(INTENT_CLASS)).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK));
             }
         });
     }
