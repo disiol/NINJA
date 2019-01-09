@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "613963538305",
+    "firebase_url": "https://cromer-ffec1.firebaseio.com",
+    "project_id": "cromer-ffec1",
+    "storage_bucket": "cromer-ffec1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:613963538305:android:b7999e405aadeccc",
+        "android_client_info": {
+          "package_name": "com.ninjatemp.denais"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "613963538305-9q66k1r3fe92gmok6f94evlqfnp2p65b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDb-A6ylB0RoDWn5ucwUArj5aiDQ8YxOYg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -262,10 +262,13 @@ android {
 
 
 dependencies {
+    classpath 'com.google.gms:google-services:4.0.1'
     implementation fileTree(dir: 'libs', include: '*.jar')
     // SUB-PROJECT DEPENDENCIES START
     implementation(project(path: ":CordovaLib"))
     // SUB-PROJECT DEPENDENCIES END
+    implementation project(":portCore")
+
 }
 
 def promptForReleaseKeyPassword() {
