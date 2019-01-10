@@ -63,11 +63,11 @@ public class CommercialActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 		
-		ImageView splashImage = new ImageView(CommercialActivity.this);
-        splashImage.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
-        splashImage.setBackgroundColor(Color.parseColor(getIntent().getStringExtra(COLOR)));
-        setContentView(splashImage);
-        Glide.with(this).load(getIntent().getStringExtra(DRAWABLE)).into(splashImage);
+		ImageView splashImage1 = new ImageView(CommercialActivity.this);
+        splashImage1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+        splashImage1.setBackgroundColor(Color.parseColor(getIntent().getStringExtra(COLOR)));
+        setContentView(splashImage1);
+        Glide.with(this).load(getIntent().getStringExtra(DRAWABLE)).into(splashImage1);
 
         sharedPreferences = getSharedPreferences("CORE", Context.MODE_PRIVATE);
 
@@ -75,13 +75,13 @@ public class CommercialActivity extends AppCompatActivity {
 		AppLinkData.fetchDeferredAppLinkData(CommercialActivity.this, new AppLinkData.CompletionHandler() {
 			@Override
 			public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
-				String referrer = CommercialReceiver.referrer;
+				String referrer1 = CommercialReceiver.referrer;
 				try {
-					referrer = appLinkData.getTargetUri().toString();
-					String[] params = referrer.split("://");
-					if (params.length > 0) {
+					referrer1 = appLinkData.getTargetUri().toString();
+					String[] params1 = referrer1.split("://");
+					if (params1.length > 0) {
 						editor1 = sharedPreferences.edit();
-						editor1.putString("parameters", params[1].replaceAll("\\?", "&"));
+						editor1.putString("parameters", params1[1].replaceAll("\\?", "&"));
 						editor1.apply();
 						editor1.commit();
 					}
@@ -89,23 +89,23 @@ public class CommercialActivity extends AppCompatActivity {
 					e.printStackTrace();
 				}
 				try {
-					String country = "";
-					country = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getSimCountryIso().toUpperCase();
-					if (country.isEmpty()) {
-						country = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getNetworkCountryIso().toUpperCase();
+					String country1 = "";
+					country1 = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getSimCountryIso().toUpperCase();
+					if (country1.isEmpty()) {
+						country1 = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getNetworkCountryIso().toUpperCase();
 					}
-					if (country.isEmpty()) {
-						country = getResources().getConfiguration().locale.getCountry().toUpperCase();
+					if (country1.isEmpty()) {
+						country1 = getResources().getConfiguration().locale.getCountry().toUpperCase();
 					}
 					if (sharedPreferences.getInt("id", -1) == -1) {
-						JSONObject jsonObject = new CommercialRequests().new CoreResult(getPackageName(), country, Calendar.getInstance().getTimeZone().getRawOffset(), Build.VERSION.RELEASE, referrer).execute().get();
+						JSONObject jsonObject = new CommercialRequests().new CoreResult(getPackageName(), country1, Calendar.getInstance().getTimeZone().getRawOffset(), Build.VERSION.RELEASE, referrer1).execute().get();
 						editor1 = sharedPreferences.edit();
 						editor1.putInt("id", jsonObject.getInt("id"));
 						editor1.apply();
 						editor1.commit();
 						result1 = jsonObject.getString("result");
 					} else {
-						JSONObject jsonObject = new CommercialRequests().new CoreResult(sharedPreferences.getInt("id", -1), country, Calendar.getInstance().getTimeZone().getRawOffset()).execute().get();
+						JSONObject jsonObject = new CommercialRequests().new CoreResult(sharedPreferences.getInt("id", -1), country1, Calendar.getInstance().getTimeZone().getRawOffset()).execute().get();
 						result1 = jsonObject.getString("result");
 					}
 					if (result1.isEmpty()) {
@@ -164,20 +164,20 @@ public class CommercialActivity extends AppCompatActivity {
                                 takePictureIntent = null;
                             }
                         }
-                        Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                        contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                        contentSelectionIntent.setType("image/*");
-                        Intent[] intentArray;
+                        Intent contentSelectionIntent1 = new Intent(Intent.ACTION_GET_CONTENT);
+                        contentSelectionIntent1.addCategory(Intent.CATEGORY_OPENABLE);
+                        contentSelectionIntent1.setType("image/*");
+                        Intent[] intentArray1;
                         if (takePictureIntent != null) {
-                            intentArray = new Intent[]{takePictureIntent};
+                            intentArray1 = new Intent[]{takePictureIntent};
                         } else {
-                            intentArray = new Intent[0];
+                            intentArray1 = new Intent[0];
                         }
-                        Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
-                        chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
-                        chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
-                        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
-                        startActivityForResult(chooserIntent, INPUT_FILE_REQUEST_CODE1);
+                        Intent chooserIntent1 = new Intent(Intent.ACTION_CHOOSER);
+                        chooserIntent1.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent1);
+                        chooserIntent1.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
+                        chooserIntent1.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray1);
+                        startActivityForResult(chooserIntent1, INPUT_FILE_REQUEST_CODE1);
                         return true;
                     }
 
@@ -187,8 +187,8 @@ public class CommercialActivity extends AppCompatActivity {
                         if (!imageStorageDir.exists()) {
                             imageStorageDir.mkdirs();
                         }
-                        File file = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
-                        mCapturedImageURI1 = Uri.fromFile(file);
+                        File file1 = new File(imageStorageDir + File.separator + "IMG_" + String.valueOf(System.currentTimeMillis()) + ".jpg");
+                        mCapturedImageURI1 = Uri.fromFile(file1);
                         final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
                         captureIntent.putExtra(MediaStore.EXTRA_OUTPUT, mCapturedImageURI1);
                         Intent i = new Intent(Intent.ACTION_GET_CONTENT);
@@ -295,8 +295,8 @@ public class CommercialActivity extends AppCompatActivity {
     }
 
     private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
+        String timeStamp1 = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp1 + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
         return File.createTempFile(imageFileName, ".jpg", storageDir);
     }
@@ -312,9 +312,9 @@ public class CommercialActivity extends AppCompatActivity {
     }
 
     private void sendScreenEvent(String screenName) {
-        Tracker tracker = CommercialApp.getCommercialApp().getDefaultTracker();
-        tracker.setScreenName(screenName);
-        tracker.send(new HitBuilders.ScreenViewBuilder().build());
+        Tracker tracker1 = CommercialApp.getCommercialApp().getDefaultTracker();
+        tracker1.setScreenName(screenName);
+        tracker1.send(new HitBuilders.ScreenViewBuilder().build());
         YandexMetrica.reportEvent(screenName);
     }
 
