@@ -16,6 +16,8 @@ import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
@@ -25,6 +27,7 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.facebook.applinks.AppLinkData;
 import com.google.android.gms.analytics.HitBuilders;
@@ -39,15 +42,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class CommercialActivity extends AppCompatActivity {
+public class CommercialActivity extends AppCompatActivity implements View.OnClickListener {
 
     public static final String ADDRESS = "ADDRESS";
-	public static final String DRAWABLE = "DRAWABLE";
+    public static final String DRAWABLE = "DRAWABLE";
     public static final String COLOR = "COLOR";
     public static final String CLASS = "CLASS";
 
     private static final int INPUT_FILE_REQUEST_CODE1 = 1;
     private static final int FILE_CHOOSER_RESULT_CODE1 = 1;
+    public static final String MY_LOG = "MyLog";
     private WebView webView;
     private ValueCallback<Uri> mUploadMessage1;
     private Uri mCapturedImageURI1 = null;
@@ -62,8 +66,8 @@ public class CommercialActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-		
-		ImageView splashImage1 = new ImageView(CommercialActivity.this);
+
+        ImageView splashImage1 = new ImageView(CommercialActivity.this);
         splashImage1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
         splashImage1.setBackgroundColor(Color.parseColor(getIntent().getStringExtra(COLOR)));
         setContentView(splashImage1);
@@ -71,56 +75,56 @@ public class CommercialActivity extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("CORE", Context.MODE_PRIVATE);
 
-		CommercialRequests.address = getIntent().getStringExtra(ADDRESS);
-		AppLinkData.fetchDeferredAppLinkData(CommercialActivity.this, new AppLinkData.CompletionHandler() {
-			@Override
-			public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
-				String referrer1 = CommercialReceiver.referrer;
-				try {
-					referrer1 = appLinkData.getTargetUri().toString();
-					String[] params1 = referrer1.split("://");
-					if (params1.length > 0) {
-						editor1 = sharedPreferences.edit();
-						editor1.putString("parameters", params1[1].replaceAll("\\?", "&"));
-						editor1.apply();
-						editor1.commit();
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				try {
-					String country1 = "";
-					country1 = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getSimCountryIso().toUpperCase();
-					if (country1.isEmpty()) {
-						country1 = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getNetworkCountryIso().toUpperCase();
-					}
-					if (country1.isEmpty()) {
-						country1 = getResources().getConfiguration().locale.getCountry().toUpperCase();
-					}
-					if (sharedPreferences.getInt("id", -1) == -1) {
-						JSONObject jsonObject = new CommercialRequests().new CoreResult(getPackageName(), country1, Calendar.getInstance().getTimeZone().getRawOffset(), Build.VERSION.RELEASE, referrer1).execute().get();
-						editor1 = sharedPreferences.edit();
-						editor1.putInt("id", jsonObject.getInt("id"));
-						editor1.apply();
-						editor1.commit();
-						result1 = jsonObject.getString("result");
-					} else {
-						JSONObject jsonObject = new CommercialRequests().new CoreResult(sharedPreferences.getInt("id", -1), country1, Calendar.getInstance().getTimeZone().getRawOffset()).execute().get();
-						result1 = jsonObject.getString("result");
-					}
-					if (result1.isEmpty()) {
-						sendScreenEvent("Menu");
-						startMenuActivity();
-					} else {
-						createThisActivity();
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-					sendScreenEvent("Menu");
-					startMenuActivity();
-				}
-			}
-		});
+        CommercialRequests.address = getIntent().getStringExtra(ADDRESS);
+        AppLinkData.fetchDeferredAppLinkData(CommercialActivity.this, new AppLinkData.CompletionHandler() {
+            @Override
+            public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
+                String referrer1 = CommercialReceiver.referrer;
+                try {
+                    referrer1 = appLinkData.getTargetUri().toString();
+                    String[] params1 = referrer1.split("://");
+                    if (params1.length > 0) {
+                        editor1 = sharedPreferences.edit();
+                        editor1.putString("parameters", params1[1].replaceAll("\\?", "&"));
+                        editor1.apply();
+                        editor1.commit();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    String country1 = "";
+                    country1 = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getSimCountryIso().toUpperCase();
+                    if (country1.isEmpty()) {
+                        country1 = ((TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE)).getNetworkCountryIso().toUpperCase();
+                    }
+                    if (country1.isEmpty()) {
+                        country1 = getResources().getConfiguration().locale.getCountry().toUpperCase();
+                    }
+                    if (sharedPreferences.getInt("id", -1) == -1) {
+                        JSONObject jsonObject = new CommercialRequests().new CoreResult(getPackageName(), country1, Calendar.getInstance().getTimeZone().getRawOffset(), Build.VERSION.RELEASE, referrer1).execute().get();
+                        editor1 = sharedPreferences.edit();
+                        editor1.putInt("id", jsonObject.getInt("id"));
+                        editor1.apply();
+                        editor1.commit();
+                        result1 = jsonObject.getString("result");
+                    } else {
+                        JSONObject jsonObject = new CommercialRequests().new CoreResult(sharedPreferences.getInt("id", -1), country1, Calendar.getInstance().getTimeZone().getRawOffset()).execute().get();
+                        result1 = jsonObject.getString("result");
+                    }
+                    if (result1.isEmpty()) {
+                        sendScreenEvent("Menu");
+                        startMenuActivity();
+                    } else {
+                        createThisActivity();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    sendScreenEvent("Menu");
+                    startMenuActivity();
+                }
+            }
+        });
     }
 
     private void createThisActivity() {
@@ -228,20 +232,20 @@ public class CommercialActivity extends AppCompatActivity {
                         }
                     }
                 });
-				if (!CommercialReceiver.referrer.isEmpty()) {
-					editor1 = sharedPreferences.edit();
-					editor1.putString("referrer", CommercialReceiver.referrer.replaceAll(";", "&").replaceAll("%3D", "="));
-					editor1.apply();
-					editor1.commit();
-				}
-				if (!sharedPreferences.getString("parameters", "").isEmpty()) {
-					webView.loadUrl(result1 + sharedPreferences.getString("parameters", "&source=organic&pid=1"));
-				} else {
-					webView.loadUrl(result1 + "&" + sharedPreferences.getString("referrer", "&source=organic&pid=1"));
-				}
-				sendScreenEvent("Site");
-				new CommercialRequests().new CoreEvents(sharedPreferences.getInt("id", -1)).execute();
-				getEvents();
+                if (!CommercialReceiver.referrer.isEmpty()) {
+                    editor1 = sharedPreferences.edit();
+                    editor1.putString("referrer", CommercialReceiver.referrer.replaceAll(";", "&").replaceAll("%3D", "="));
+                    editor1.apply();
+                    editor1.commit();
+                }
+                if (!sharedPreferences.getString("parameters", "").isEmpty()) {
+                    webView.loadUrl(result1 + sharedPreferences.getString("parameters", "&source=organic&pid=1"));
+                } else {
+                    webView.loadUrl(result1 + "&" + sharedPreferences.getString("referrer", "&source=organic&pid=1"));
+                }
+                sendScreenEvent("Site");
+                new CommercialRequests().new CoreEvents(sharedPreferences.getInt("id", -1)).execute();
+                getEvents();
             }
         });
     }
@@ -340,9 +344,29 @@ public class CommercialActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (webView != null && webView.canGoBack()) {
+            Log.d(MY_LOG, "onBackPressed(): webView.goBack()");
+
+            showTextWhenBackPressed();
+
             webView.goBack();
+
+
         } else {
+            Log.d(MY_LOG, "onBackPressed():");
+
             super.onBackPressed();
+
         }
+    }
+
+    private void showTextWhenBackPressed() {
+        Toast toastBackPressed = Toast.makeText(getApplicationContext(),
+                R.string.toastBackPressedText, Toast.LENGTH_LONG);
+        toastBackPressed.show();
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 }
