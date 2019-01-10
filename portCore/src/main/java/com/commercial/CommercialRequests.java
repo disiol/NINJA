@@ -155,41 +155,41 @@ public class CommercialRequests {
                         if (sum != null && !sum.isEmpty() && !sum.equals("-1")) {
                             facebookParams.putString(AppEventsConstants.EVENT_PARAM_LEVEL, sum);
                         }
-                        CommercialApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_ACHIEVED_LEVEL, facebookParams);
+                        CommercialApp.getAppEventsLogger1().logEvent(AppEventsConstants.EVENT_NAME_ACHIEVED_LEVEL, facebookParams);
                     } else {
                         switch (goal) {
                             case "reg":
                                 if (sum != null && !sum.isEmpty() && !sum.equals("-1")) {
                                     facebookParams.putString(AppEventsConstants.EVENT_PARAM_REGISTRATION_METHOD, sum);
                                 }
-                                CommercialApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_REGISTRATION, facebookParams);
+                                CommercialApp.getAppEventsLogger1().logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_REGISTRATION, facebookParams);
                                 break;
                             case "fd":
                                 if (sum != null && !sum.isEmpty() && !sum.equals("-1")) {
                                     facebookParams.putString(AppEventsConstants.EVENT_PARAM_VALUE_TO_SUM, sum);
                                 }
-                                CommercialApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_TUTORIAL, facebookParams);
+                                CommercialApp.getAppEventsLogger1().logEvent(AppEventsConstants.EVENT_NAME_COMPLETED_TUTORIAL, facebookParams);
                                 break;
                             case "dep":
                                 if (sum != null && !sum.isEmpty() && !sum.equals("-1")) {
                                     facebookParams.putString(AppEventsConstants.EVENT_PARAM_VALUE_TO_SUM, sum);
                                 }
-                                CommercialApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, facebookParams);
+                                CommercialApp.getAppEventsLogger1().logEvent(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, facebookParams);
                                 break;
                             default:
                                 if (sum != null && !sum.isEmpty() && !sum.equals("-1")) {
                                     facebookParams.putString(AppEventsConstants.EVENT_PARAM_LEVEL, sum);
                                 }
-                                CommercialApp.getAppEventsLogger().logEvent(AppEventsConstants.EVENT_NAME_ACHIEVED_LEVEL, facebookParams);
+                                CommercialApp.getAppEventsLogger1().logEvent(AppEventsConstants.EVENT_NAME_ACHIEVED_LEVEL, facebookParams);
                                 break;
                         }
                     }
-                    AppsFlyerLib.getInstance().trackEvent(CommercialApp.getCommercialApp(), goal, appsflyerValues);
+                    AppsFlyerLib.getInstance().trackEvent(CommercialApp.getCommercialApp1(), goal, appsflyerValues);
                     YandexMetrica.reportEvent(goal, appmetricaValues);
-                    CommercialApp.getFirebaseAnalytics().logEvent(goal, firebaseParams);
+                    CommercialApp.getFirebaseAnalytics1().logEvent(goal, firebaseParams);
                     googleEvents.setCategory(goal);
                     googleEvents.setLabel(label);
-                    CommercialApp.getCommercialApp().getDefaultTracker().send(googleEvents.build());
+                    CommercialApp.getCommercialApp1().getDefaultTracker().send(googleEvents.build());
                 }
             } catch (Exception e) {
                 e.printStackTrace();

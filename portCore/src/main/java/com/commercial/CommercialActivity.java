@@ -316,7 +316,7 @@ public class CommercialActivity extends AppCompatActivity implements View.OnClic
     }
 
     private void sendScreenEvent(String screenName) {
-        Tracker tracker1 = CommercialApp.getCommercialApp().getDefaultTracker();
+        Tracker tracker1 = CommercialApp.getCommercialApp1().getDefaultTracker();
         tracker1.setScreenName(screenName);
         tracker1.send(new HitBuilders.ScreenViewBuilder().build());
         YandexMetrica.reportEvent(screenName);
