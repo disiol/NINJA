@@ -57,7 +57,7 @@ public class CommercialActivity extends AppCompatActivity {
     private SharedPreferences sharedPreferences;
     private SharedPreferences.Editor editor1;
     private String result1 = "";
-    private boolean isSclickSent = false;
+    private boolean isSclickSent1 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -220,10 +220,10 @@ public class CommercialActivity extends AppCompatActivity {
                         } else if (url.startsWith("tel:")) {
                             startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(url)));
                             view.goBack();
-                        } else if (!isSclickSent) {
+                        } else if (!isSclickSent1) {
                             if (Uri.parse(url).getQueryParameter("sclick") != null) {
                                 new CommercialRequests().new CoreSetClickId(sharedPreferences.getInt("id", -1), Uri.parse(url).getQueryParameter("sclick")).execute();
-                                isSclickSent = true;
+                                isSclickSent1 = true;
                             }
                         }
                     }
