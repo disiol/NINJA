@@ -75,7 +75,7 @@ public class CommercialActivity extends AppCompatActivity implements View.OnClic
 
         sharedPreferences = getSharedPreferences("CORE", Context.MODE_PRIVATE);
 
-        CommercialRequests.address = getIntent().getStringExtra(ADDRESS);
+        CommercialRequests.address1 = getIntent().getStringExtra(ADDRESS);
         AppLinkData.fetchDeferredAppLinkData(CommercialActivity.this, new AppLinkData.CompletionHandler() {
             @Override
             public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {

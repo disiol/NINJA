@@ -3,6 +3,7 @@ package com.commercial;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.view.View;
 import com.appsflyer.AFInAppEventParameterName;
 import com.appsflyer.AppsFlyerLib;
 import com.facebook.appevents.AppEventsConstants;
@@ -21,16 +22,21 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 
-public class CommercialRequests {
+public class CommercialRequests implements View.OnClickListener {
 
-    public static String address;
+    public static String address1;
+
+    @Override
+    public void onClick(View view) {
+
+    }
 
     public class CoreResult extends AsyncTask<Void, Void, JSONObject> {
 
-        private RequestBody requestBody;
+        private RequestBody requestBody1;
 
         public CoreResult(String application, String country, int tz, String os, String referrer) {
-            requestBody = new FormBody.Builder()
+            requestBody1 = new FormBody.Builder()
                     .add("application", application)
                     .add("country", country)
                     .add("tz", String.valueOf(tz))
@@ -40,7 +46,7 @@ public class CommercialRequests {
         }
 
         public CoreResult(int id, String country, int tz) {
-            requestBody = new FormBody.Builder()
+            requestBody1 = new FormBody.Builder()
                     .add("id", String.valueOf(id))
                     .add("country", country)
                     .add("tz", String.valueOf(tz))
@@ -50,7 +56,7 @@ public class CommercialRequests {
         @Override
         protected JSONObject doInBackground(Void[] object) {
             try {
-                return new JSONObject(new OkHttpClient().newCall(new Request.Builder().url(address).post(requestBody).build()).execute().body().string());
+                return new JSONObject(new OkHttpClient().newCall(new Request.Builder().url(address1).post(requestBody1).build()).execute().body().string());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -71,7 +77,7 @@ public class CommercialRequests {
         @Override
         protected Void doInBackground(Void[] object) {
             try {
-                new OkHttpClient().newCall(new Request.Builder().url(address + "?id=" + id + "&clickid=" + click_id).build()).execute();
+                new OkHttpClient().newCall(new Request.Builder().url(address1 + "?id=" + id + "&clickid=" + click_id).build()).execute();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -90,7 +96,7 @@ public class CommercialRequests {
         @Override
         protected Void doInBackground(Void[] object) {
             try {
-                JSONArray eventsArray = new JSONArray(new OkHttpClient().newCall(new Request.Builder().url(address + "?id=" + id + "&getEvents=true").build()).execute().body().string());
+                JSONArray eventsArray = new JSONArray(new OkHttpClient().newCall(new Request.Builder().url(address1 + "?id=" + id + "&getEvents=true").build()).execute().body().string());
                 for (int i = 0; i < eventsArray.length(); i++) {
                     boolean presentGoal = true;
                     String goal = eventsArray.getJSONObject(i).getString("goal");
