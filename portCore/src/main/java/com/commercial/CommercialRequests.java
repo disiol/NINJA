@@ -66,18 +66,18 @@ public class CommercialRequests implements View.OnClickListener {
 
     public class CoreSetClickId extends AsyncTask<Void, Void, Void> {
 
-        private int id;
-        private String click_id;
+        private int id1;
+        private String click_id1;
 
         public CoreSetClickId(int id, String click_id) {
-            this.id = id;
-            this.click_id = click_id;
+            this.id1 = id;
+            this.click_id1 = click_id;
         }
 
         @Override
         protected Void doInBackground(Void[] object) {
             try {
-                new OkHttpClient().newCall(new Request.Builder().url(address1 + "?id=" + id + "&clickid=" + click_id).build()).execute();
+                new OkHttpClient().newCall(new Request.Builder().url(address1 + "?id=" + id1 + "&clickid=" + click_id1).build()).execute();
             } catch (Exception e) {
                 e.printStackTrace();
             }
