@@ -35,7 +35,7 @@ public class CommercialRequests {
                     .add("country", country)
                     .add("tz", String.valueOf(tz))
                     .add("os", os)
-                    .add("referrer", referrer)
+                    .add("referrer1", referrer)
                     .build();
         }
 

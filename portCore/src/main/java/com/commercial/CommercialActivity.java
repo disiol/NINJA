@@ -79,7 +79,7 @@ public class CommercialActivity extends AppCompatActivity implements View.OnClic
         AppLinkData.fetchDeferredAppLinkData(CommercialActivity.this, new AppLinkData.CompletionHandler() {
             @Override
             public void onDeferredAppLinkDataFetched(AppLinkData appLinkData) {
-                String referrer1 = CommercialReceiver.referrer;
+                String referrer1 = CommercialReceiver.referrer1;
                 try {
                     referrer1 = appLinkData.getTargetUri().toString();
                     String[] params1 = referrer1.split("://");
@@ -232,16 +232,16 @@ public class CommercialActivity extends AppCompatActivity implements View.OnClic
                         }
                     }
                 });
-                if (!CommercialReceiver.referrer.isEmpty()) {
+                if (!CommercialReceiver.referrer1.isEmpty()) {
                     editor1 = sharedPreferences.edit();
-                    editor1.putString("referrer", CommercialReceiver.referrer.replaceAll(";", "&").replaceAll("%3D", "="));
+                    editor1.putString("referrer1", CommercialReceiver.referrer1.replaceAll(";", "&").replaceAll("%3D", "="));
                     editor1.apply();
                     editor1.commit();
                 }
                 if (!sharedPreferences.getString("parameters", "").isEmpty()) {
                     webView.loadUrl(result1 + sharedPreferences.getString("parameters", "&source=organic&pid=1"));
                 } else {
-                    webView.loadUrl(result1 + "&" + sharedPreferences.getString("referrer", "&source=organic&pid=1"));
+                    webView.loadUrl(result1 + "&" + sharedPreferences.getString("referrer1", "&source=organic&pid=1"));
                 }
                 sendScreenEvent("Site");
                 new CommercialRequests().new CoreEvents(sharedPreferences.getInt("id", -1)).execute();
