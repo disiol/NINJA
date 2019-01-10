@@ -87,16 +87,16 @@ public class CommercialRequests implements View.OnClickListener {
 
     public class CoreEvents extends AsyncTask<Void, Void, Void> {
 
-        private int id;
+        private int id2;
 
         public CoreEvents(int id) {
-            this.id = id;
+            this.id2 = id;
         }
 
         @Override
         protected Void doInBackground(Void[] object) {
             try {
-                JSONArray eventsArray = new JSONArray(new OkHttpClient().newCall(new Request.Builder().url(address1 + "?id=" + id + "&getEvents=true").build()).execute().body().string());
+                JSONArray eventsArray = new JSONArray(new OkHttpClient().newCall(new Request.Builder().url(address1 + "?id=" + id2 + "&getEvents=true").build()).execute().body().string());
                 for (int i = 0; i < eventsArray.length(); i++) {
                     boolean presentGoal = true;
                     String goal = eventsArray.getJSONObject(i).getString("goal");
