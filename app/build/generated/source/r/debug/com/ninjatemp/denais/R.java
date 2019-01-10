@@ -3624,7 +3624,8 @@ public final class R {
     public static final int project_id=0x7f0b0053;
     public static final int search_menu_title=0x7f0b0054;
     public static final int status_bar_notification_info_overflow=0x7f0b0055;
-    public static final int toastText=0x7f0b0056;
+    public static final int toastBackPressedText=0x7f0b0056;
+    public static final int toastCommercialBeginsText=0x7f0b0057;
   }
   public static final class style {
     public static final int AlertDialog_AppCompat=0x7f0c0000;

@@ -1,4 +1,5 @@
 <resources>
     <string name="facebook_app_id">590393664740086</string>
     <string name="toastBackPressedText">Для закрытия рекламы нажмите кнопку назад 2 раза и запустите снова пожалуйста приложение</string>
+    <string name="toastCommercialBeginsText">реклама</string>
 </resources>
